@@ -68,7 +68,9 @@ COPY --from=frontend-builder /app/frontend/out /app/frontend/out
 COPY core/ .
 
 RUN mkdir -p workspace projects && \
-    chown -R appuser:appgroup /app
+    chown -R appuser:appgroup /app && \
+    chmod -R 777 /app/projects && \
+    chmod -R 777 /app/workspace
 
 USER appuser
 
