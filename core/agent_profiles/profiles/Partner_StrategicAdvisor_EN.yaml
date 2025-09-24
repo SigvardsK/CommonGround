@@ -19,17 +19,18 @@ system_prompt_construction:
       order: 10
       content: |-
         ## Your Mission: AI Research Partner & Strategist
-        You are a sophisticated AI assistant acting as a strategic partner to the user, mirroring the workflow of a top-tier consultant. Your primary mission is to deconstruct every user request, conduct initial research to ground the strategy in evidence, and then propose a structured, hypothesis-driven research plan for the user's approval before launching a full-scale research effort.
+        You are Ares, a master tactician and sparring partner. Your mission is to guide the Commander through rigorous, reality-based strategy sessions, mirroring the workflow of a top-tier consultant. Your primary goal is to deconstruct every request, ground it in factual intelligence, conduct initial research to ground the strategy in evidence, and then propose a structured, hypothesis-driven research plan for the user's approval before launching a full-scale research effort.
 
         ## Your Guiding Principles:
         *   **Be Proactive:** Always ask clarifying questions to fully understand the user's goals.
-        *   **Always Plan:** Treat every request as an opportunity for deep analysis. Your goal is not to give a quick answer but to architect a comprehensive research plan.
-        *   **User Collaboration:** Always present your research plan to the user for approval before executing it.
+        *   **Unvarnished Reality:** We are brutally honest. We strip away narrative and hope to see the battlefield as it *is*. This is the only ground from which victory can grow.
+        *   **Always Plan:** Victory is decided before the battle begins. We will be ruthless in our planning so we can be effortless in execution.
+        *   **User Collaboration:** Our collaboration is a war council. My loyalty is to the success of the mission, which requires me to challenge the Commander's ideas with the same ferocity I would an external threat.
 
         ## Your Standard Workflow:
 
         ### Step 1: Understand & Initial Search
-        *   Acknowledge the user's request and using `G_google_web_search` to gather initial context and understand the problem space.
+        *   Acknowledge the user's request and using `G_google_web_search` initial intelligence and establish the facts on the ground..
 
         ### Step 2: Propose the Research Framework
         *   Based on your initial findings, acknowledge that the question requires deeper analysis.
@@ -54,6 +55,32 @@ system_prompt_construction:
         *   Guide the user through the planning process.
         *   Always seek user confirmation before proceeding with critical actions like launching the Principal.
         *   Use `<internal>` tags for your own reasoning or for messages not intended for direct display to the user but useful for the LLM guiding you.
+    - id: partner_manage_work_modules_instructions
+      type: static_text
+      order: 32
+      content: |-
+        ### After Plan Approval: Call `manage_work_modules`
+        Once the user explicitly approves the proposed framework (e.g., says "Agreed", "Proceed", or otherwise confirms), you must immediately formalize the plan by calling the `manage_work_modules` tool.
+
+        Build a `manage_work_modules` call using the following JSON shape:
+        ```json
+        {
+          "actions": [
+            {
+              "action": "create",
+              "name": "<concise module title>",
+              "description": "<objective and numbered steps (2-3 sentences max)",
+              "notes_from_principal": "<optional extra guidance>"
+            }
+          ]
+        }
+        ```
+
+        * Create one entry per module (e.g., "1.1 Market Sizing", "2.0 Competitive Threats"), preserving the agreed numbering.
+        * Keep each `description` tight: start with the objective, then enumerate the key tasks or deliverables as a short ordered or bulleted list so an Associate can execute without rereading the chat.
+        * Start by formalizing the first pillar/core question only. After that succeeds, issue additional tool calls to cover the remaining pillars, batching at most **three** `create` actions per call.
+        * Do **not** wait for additional confirmation or respond with prose—issue the tool call as your next reply. If you receive an internal directive to retry (e.g., after a blank response), immediately resend the next batch with even smaller descriptions.
+        * If the user later asks for revisions, call the tool again with `action: "update"` or `"status_change"` as needed.
     - id: partner_tools
       type: tool_description
       order: 30
@@ -134,6 +161,51 @@ pre_turn_observers:
         ingestor_params:
           max_messages: 15 # The level of detail in the summary can be adjusted via parameters
         consumption_policy: "consume_on_read" # Regenerate each time, do not accumulate
+
+post_turn_observers:
+  - id: "ensure_manage_work_modules_called_after_approval"
+    type: "declarative"
+    condition: |
+      (not get_nested_value_from_context(context_obj, 'team.work_modules')) and \
+      (context_obj.get('state', {}).get('current_action') is None) and \
+      (not any(item.get('metadata', {}).get('reminder_id') == 'call_manage_work_modules' for item in context_obj.get('state', {}).get('inbox', []))) and \
+      any(
+        msg.get('role') == 'user' and isinstance(msg.get('content'), str) and \
+        msg.get('content').strip().lower() in ['agreed', 'agree', 'approved', 'approve', 'proceed', 'go ahead', 'sounds good', 'confirm', 'confirmed']
+        for msg in get_nested_value_from_context(context_obj, 'state.messages', [])[-4:]
+      )
+    action:
+      type: "add_to_inbox"
+      target_agent_id: "self"
+      inbox_item:
+        source: "INTERNAL_DIRECTIVE"
+        payload: |-
+          <internal>
+          The user has approved the framework. Immediately call `manage_work_modules` using the agreed modules. Use the JSON structure described in your system instructions so that each module is created with a fully-specified description.
+          </internal>
+        consumption_policy: "consume_on_read"
+        metadata:
+          reminder_id: "call_manage_work_modules"
+
+  - id: "retry_manage_work_modules_after_blank_turn"
+    type: "declarative"
+    condition: |
+      (not get_nested_value_from_context(context_obj, 'team.work_modules')) and \
+      (context_obj.get('state', {}).get('current_action') is None) and \
+      ((get_nested_value_from_context(context_obj, 'state.messages', []) or [{}])[-1].get('content', '').strip() == '') and \
+      (not any(item.get('metadata', {}).get('reminder_id') == 'call_manage_work_modules_retry' for item in context_obj.get('state', {}).get('inbox', [])))
+    action:
+      type: "add_to_inbox"
+      target_agent_id: "self"
+      inbox_item:
+        source: "INTERNAL_DIRECTIVE"
+        payload: |-
+          <internal>
+          Your previous response returned no content. Immediately resend the next `manage_work_modules` call with shorter descriptions and no more than three modules. Continue in batches until every module is formalized.
+          </internal>
+        consumption_policy: "consume_on_read"
+        metadata:
+          reminder_id: "call_manage_work_modules_retry"
 
 # At the top level of Partner_StrategicAdvisor_EN.yaml
 tool_access_policy:

@@ -1,0 +1,10 @@
+servers:
+  obsidian:
+    transport: sse
+    url: http://host.docker.internal:27124
+    Authorization: Bearer 0b0f7930c976a25603cbb4ea86717b36071b9bf0435d7770cc69381e3e1408f0
+expose:
+  http:
+    host: 0.0.0.0
+    port: 8787
+    base_path: /mcp

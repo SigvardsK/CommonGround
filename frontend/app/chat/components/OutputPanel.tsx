@@ -22,13 +22,13 @@ export const OutputPanel = observer(({
   return (
     <div className="flex-1 overflow-hidden">
       <div className="relative h-full w-full px-3 pb-3 overflow-hidden">
-          <div className="absolute top-4 right-6 z-10 rounded-lg bg-white flex items-center gap-2">
-            <span className="text-sm text-gray-500">Group by:</span>
+          <div className="absolute top-4 right-6 z-10 rounded-lg bg-card flex items-center gap-2 p-2 border">
+            <span className="text-sm text-muted-foreground">Group by:</span>
             <Select
               value={groupMode}
               onValueChange={(value: 'task' | 'agent') => setGroupMode(value)}
             >
-              <SelectTrigger className="w-14 h-auto p-0 border-none bg-transparent text-sm text-gray-500 hover:text-gray-700 focus:ring-0 shadow-none">
+              <SelectTrigger className="w-14 h-auto p-0 border-none bg-transparent text-sm text-muted-foreground hover:text-foreground focus:ring-0 shadow-none">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -38,7 +38,7 @@ export const OutputPanel = observer(({
             </Select>
           </div>
         
-          <div className="w-full h-full bg-white rounded-lg border border-[#E4E4E4] p-4 pt-16 overflow-y-auto">
+          <div className="w-full h-full bg-card rounded-lg border p-4 pt-16 overflow-y-auto">
             {/* Add a min-height container for the Kanban view to ensure its visual proportion */}
             <div className="min-h-[400px]">
               <KanbanView runId={runId} groupMode={groupMode} />

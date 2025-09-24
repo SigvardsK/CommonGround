@@ -1,8 +1,8 @@
 {
   "mcpServers": {
-    "G": {
+    "obsidian": {
       "transport": "http",
-      "url": "http://localhost:8765/mcp",
+      "url": "http://localhost:8787/mcp",
       "enabled": true
     }
   }

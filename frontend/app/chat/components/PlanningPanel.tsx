@@ -61,12 +61,12 @@ export const PlanningPanel = observer(({ runId }: PlanningPanelProps) => {
 
   const renderTaskItem = (task: EnrichedWorkModule) => (
     <li key={task.module_id} className="group mb-2">
-      <div className="relative flex items-start rounded-lg border border-[#E4E4E4] p-3 hover:bg-white">
+      <div className="relative flex items-start rounded-lg border p-3 hover:bg-accent">
         <div className="flex items-start gap-1 flex-1 min-w-0">
           <Dot className="h-4 w-4 flex-shrink-0 stroke-[4px] mt-1" />
           <span className="text-sm break-words font-medium">{task.name}</span>
         </div>
-        <div className="absolute top-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity bg-white p-1 rounded-lg">
+        <div className="absolute top-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity bg-card p-1 rounded-lg border">
           <Button size="icon" variant="ghost" className="h-6 w-6 rounded-md" onClick={() => handleEditTask(task)}>
             <SquarePen className="h-4 w-4" />
           </Button>
@@ -83,7 +83,7 @@ export const PlanningPanel = observer(({ runId }: PlanningPanelProps) => {
     return (
       <li className="group mb-2">
         <div className="relative">
-          <div className="border-2 border-black rounded-lg p-2 space-y-2">
+          <div className="border-2 border-ring rounded-lg p-2 space-y-2">
             <Textarea
               placeholder="Task Name"
               value={editingTask.name}
@@ -104,8 +104,8 @@ export const PlanningPanel = observer(({ runId }: PlanningPanelProps) => {
               <Button size="icon" variant="outline" className="h-6 w-6" onClick={() => setEditingTask(null)}>
                 <X className="h-4 w-4" />
               </Button>
-              <Button size="icon" className="h-6 w-6 bg-black hover:bg-black/80" onClick={handleSave}>
-                <Check className="h-4 w-4 text-white" />
+              <Button size="icon" className="h-6 w-6" onClick={handleSave}>
+                <Check className="h-4 w-4" />
               </Button>
             </div>
           </div>
@@ -117,10 +117,10 @@ export const PlanningPanel = observer(({ runId }: PlanningPanelProps) => {
   return (
     <div className="px-3 pb-3 flex-1 overflow-y-auto">
       <div className="flex gap-3 h-full">
-        <div className="bg-white rounded-lg p-3 shadow-sm w-[320px] border border-[#E4E4E4]">
+        <div className="bg-card rounded-lg p-3 shadow-sm w-[320px] border">
           <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2 bg-[#F2F2F2] rounded-full px-2 py-1">
-              <Circle className="h-3 w-3 text-gray-400 fill-current" />
+            <div className="flex items-center gap-2 bg-muted rounded-full px-2 py-1">
+              <Circle className="h-3 w-3 text-muted-foreground fill-current" />
               <span className="text-sm font-medium">Planning</span>
             </div>
           </div>
@@ -138,10 +138,10 @@ export const PlanningPanel = observer(({ runId }: PlanningPanelProps) => {
           </ul>
         </div>
 
-        <div className="bg-white rounded-lg p-3 shadow-sm flex-1 border border-[#E4E4E4]">
+        <div className="bg-card rounded-lg p-3 shadow-sm flex-1 border">
           <div className="flex mb-2">
-            <div className="flex items-center gap-2 bg-[#F2F2F2] rounded-full px-2 py-1">
-              <Circle className="h-3 w-3 text-gray-400 fill-current" />
+            <div className="flex items-center gap-2 bg-muted rounded-full px-2 py-1">
+              <Circle className="h-3 w-3 text-muted-foreground fill-current" />
               <span className="text-sm font-medium">Recruit Agent</span>
             </div>
           </div>
@@ -149,7 +149,7 @@ export const PlanningPanel = observer(({ runId }: PlanningPanelProps) => {
           <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-x-3">
             <Button 
               variant="outline" 
-              className="justify-start gap-1 mb-2 bg-white border-[#E4E4E4] h-[40px]"
+              className="justify-start gap-1 mb-2 h-[40px]"
             >
               <Plus className="h-4 w-4" />
               New Agent
@@ -161,10 +161,10 @@ export const PlanningPanel = observer(({ runId }: PlanningPanelProps) => {
 
           <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-2">
             {[1, 2].map((index) => (
-              <div key={index} className="rounded-lg p-3 border border-[#E4E4E4]">
+              <div key={index} className="rounded-lg p-3 border">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <Avatar className="h-8 w-8 bg-[#D9D9D9]">
+                    <Avatar className="h-8 w-8 bg-muted">
                       <AvatarFallback>J</AvatarFallback>
                     </Avatar>
                     <div className="flex items-center gap-2">
@@ -173,14 +173,14 @@ export const PlanningPanel = observer(({ runId }: PlanningPanelProps) => {
                     </div>
                   </div>
                   <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <SquarePen className="h-4 w-4 text-[#979797]" />
+                    <SquarePen className="h-4 w-4 text-muted-foreground" />
                   </Button>
                 </div>
-                <p className="text-sm text-gray-600 mb-3">
+                <p className="text-sm text-muted-foreground mb-3">
                   Associate agent specialized in web searching tasks.
                 </p>
                 <div className="flex">
-                  <div className="flex items-center gap-2 text-sm bg-[#F2F2F2] rounded-lg px-2 py-1">
+                  <div className="flex items-center gap-2 text-sm bg-muted rounded-lg px-2 py-1">
                     <Search className="h-3 w-3" />
                     <span>Search & Visit Web</span>
                   </div>

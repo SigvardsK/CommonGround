@@ -41,9 +41,8 @@ services:
     # If you changed the settings above, make sure to update this path accordingly.
       - ~/.gemini:/root/.gemini
     environment:
-      # Uncomment and set the following environment variables if you prefer to use API key authentication
-      # instead of OAuth authentication. These variables should be set in the bridge service.
-      # - GEMINI_API_KEY=your_gemini_api_key_here
+      # API key authentication enabled
+      - GEMINI_API_KEY=AIzaSyAYEqVqMWqf9aAfEXoji7wh1olbavylFGY
       
       # IMPORTANT: If you encounter "GOOGLE_CLOUD_PROJECT env var" error during login,
       # you MUST uncomment and set this variable with your Google Cloud Project ID

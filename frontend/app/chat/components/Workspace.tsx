@@ -35,7 +35,7 @@ const TokenUsageDisplay = observer(() => {
         <TooltipProvider>
             <Tooltip>
                 <TooltipTrigger asChild>
-                    <div className="flex items-center gap-1 text-xs text-gray-500 cursor-help">
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground cursor-help">
                         <Info size={14} />
                         <span>Token Usage</span>
                     </div>
@@ -61,14 +61,14 @@ export const Workspace = observer((props: WorkspaceProps) => {
   // and its logic is now centralized in `sessionStore.ts` to prevent race conditions.
 
   return (
-    <div className="flex-1 flex flex-col bg-[#FAFAFA] h-[calc(100vh-46px)] min-w-0">
+    <div className="flex-1 flex flex-col bg-background h-[calc(100vh-46px)] min-w-0">
       <div className="flex items-center justify-between p-3">
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
             size="sm"
             className={`flex items-center gap-2 ${
-              activeTab === 'flow' ? 'bg-[#F2F2F2] shadow-sm' : ''
+              activeTab === 'flow' ? 'bg-muted shadow-sm' : ''
             }`}
             onClick={() => setActiveTab('flow')}
           >
@@ -79,7 +79,7 @@ export const Workspace = observer((props: WorkspaceProps) => {
             variant="ghost"
             size="sm"
             className={`flex items-center gap-2 ${
-              activeTab === 'kanban' ? 'bg-[#F2F2F2] shadow-sm' : ''
+              activeTab === 'kanban' ? 'bg-muted shadow-sm' : ''
             }`}
             onClick={() => setActiveTab('kanban')}
           >
@@ -91,12 +91,12 @@ export const Workspace = observer((props: WorkspaceProps) => {
         <div className="flex items-center gap-4">
           {activeTab === 'kanban' && (
             <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-500">Group by:</span>
+              <span className="text-sm text-muted-foreground">Group by:</span>
               <Select
                 value={groupMode}
                 onValueChange={(value: 'task' | 'agent') => setGroupMode(value)}
               >
-                <SelectTrigger className="w-14 h-auto p-0 border-none bg-transparent text-sm text-gray-500 hover:text-gray-700 focus:ring-0 shadow-none">
+                <SelectTrigger className="w-14 h-auto p-0 border-none bg-transparent text-sm text-muted-foreground hover:text-foreground focus:ring-0 shadow-none">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -118,7 +118,7 @@ export const Workspace = observer((props: WorkspaceProps) => {
         )}
         {activeTab === 'kanban' && (
           <div className="relative h-full w-full px-3 pb-3 overflow-hidden">
-            <div className="w-full h-full bg-white rounded-lg border border-[#E4E4E4] p-4 pt-8 overflow-y-auto">
+            <div className="w-full h-full bg-card rounded-lg border p-4 pt-8 overflow-y-auto">
               <div className="min-h-[400px]">
                 <KanbanView runId={props.runId} groupMode={groupMode} />
               </div>
@@ -131,7 +131,7 @@ export const Workspace = observer((props: WorkspaceProps) => {
         )}
         
         <div
-          className={`absolute top-0 right-0 h-full w-[720px] bg-white border-l border-gray-200 shadow-lg transform transition-transform duration-300 ease-in-out z-20 ${
+          className={`absolute top-0 right-0 h-full w-[720px] bg-card border-l border shadow-lg transform transition-transform duration-300 ease-in-out z-20 ${
             props.isNodeDetailOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >

@@ -23,7 +23,7 @@ export function ChatInput({
 }: ChatInputProps) {
   return (
     <div className="p-3">
-      <div className="flex gap-2 bg-white rounded-lg border overflow-hidden p-2 focus-within:border-black transition-colors">
+      <div className="flex gap-2 bg-card rounded-lg border overflow-hidden p-2 focus-within:ring-1 focus-within:ring-ring transition-colors">
         <Input
           value={currentInput}
           onChange={(e) => onInputChange(e.target.value)}
@@ -34,12 +34,12 @@ export function ChatInput({
         />
         {isStreaming ? (
           <Button
-            variant="ghost"
+            variant="default"
             size="icon"
-            className="rounded-full bg-black hover:bg-black/90 !px-2 !py-1"
+            className="rounded-full !px-2 !py-1"
             onClick={onStopExecution}
           >
-            <div className="w-3 h-3 bg-white" />
+            <div className="w-3 h-3 bg-primary-foreground" />
           </Button>
         ) : (
           <Button 

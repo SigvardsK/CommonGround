@@ -65,7 +65,7 @@ export const TimelineView = observer(() => {
 
   if (viewError) {
     return (
-      <div className="w-full h-full bg-white rounded-lg border border-red-200 flex items-center justify-center p-4 text-center text-red-500">
+      <div className="w-full h-full bg-card rounded-lg border border-red-200 flex items-center justify-center p-4 text-center text-red-500">
         Error loading Timeline view: {viewError}
       </div>
     );
@@ -73,7 +73,7 @@ export const TimelineView = observer(() => {
 
   if (!processedData || !viewModel) {
     return (
-      <div className="w-full h-full bg-white rounded-lg border border-[#E4E4E4] flex items-center justify-center p-4 text-center text-gray-500">
+      <div className="w-full h-full bg-card rounded-lg border flex items-center justify-center p-4 text-center text-muted-foreground">
         <LoadingSpinner />
         <span className="ml-2">Waiting for timeline data...</span>
       </div>
@@ -83,16 +83,16 @@ export const TimelineView = observer(() => {
   const { totalVisualDuration, lanes, mapRealTimeToVisual } = processedData;
 
   return (
-    <div className="w-full h-full bg-white rounded-lg border border-[#E4E4E4] p-4 overflow-auto">
+    <div className="w-full h-full bg-card rounded-lg border p-4 overflow-auto">
       <div className="relative space-y-4">
         {lanes
           .filter(lane => lane.agentId !== 'Partner' && lane.blocks.length > 0)
           .map(lane => (
             <div key={lane.agentId} className="flex items-center gap-4 h-8">
-              <div className="w-40 text-sm font-medium truncate text-gray-700" title={lane.agentId}>
+              <div className="w-40 text-sm font-medium truncate text-foreground" title={lane.agentId}>
                 {lane.agentId}
               </div>
-              <div className="flex-1 h-full bg-gray-200/70 rounded-full relative overflow-hidden">
+              <div className="flex-1 h-full bg-muted rounded-full relative overflow-hidden">
                 {lane.blocks.map(block => {
                   const visualStart = mapRealTimeToVisual(new Date(block.startTime));
                   const isConnected = sessionStore.ws?.readyState === WebSocket.OPEN;

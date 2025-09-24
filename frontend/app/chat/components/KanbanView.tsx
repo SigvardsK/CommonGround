@@ -25,10 +25,10 @@ const KanbanColumn = ({ title, tasks, color }: { title: string, tasks: EnrichedW
     </div>
     <div className="space-y-3">
       {tasks.map(task => (
-        <div key={task.module_id} className="border border-gray-200 rounded-lg p-3 bg-gray-50">
+        <div key={task.module_id} className="border rounded-lg p-3 bg-card">
           <div className="text-sm font-medium mb-1">{task.name}</div>
-          <p className="text-xs text-gray-600 mb-2">{task.description}</p>
-          {task.live_status_summary && <p className="text-xs text-blue-600">Status: {task.live_status_summary}</p>}
+          <p className="text-xs text-muted-foreground mb-2">{task.description}</p>
+          {task.live_status_summary && <p className="text-xs text-primary">Status: {task.live_status_summary}</p>}
         </div>
       ))}
     </div>
@@ -41,7 +41,7 @@ export const KanbanView = observer(({ groupMode }: KanbanViewProps) => {
 
   if (viewError) {
     return (
-      <div className="w-full h-full bg-white rounded-lg border border-red-200 flex items-center justify-center p-4 text-center text-red-500">
+      <div className="w-full h-full bg-card rounded-lg border border-red-200 flex items-center justify-center p-4 text-center text-red-500">
         Error loading Kanban board: {viewError}
       </div>
     );
@@ -49,7 +49,7 @@ export const KanbanView = observer(({ groupMode }: KanbanViewProps) => {
 
   if (!kanbanViewModel) {
     return (
-      <div className="w-full h-full bg-white rounded-lg border border-[#E4E4E4] flex items-center justify-center">
+      <div className="w-full h-full bg-card rounded-lg border flex items-center justify-center">
         <LoadingSpinner />
       </div>
     );

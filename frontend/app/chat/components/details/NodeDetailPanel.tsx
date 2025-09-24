@@ -17,7 +17,7 @@ export const NodeDetailPanel = observer(({ selectedNode, onClose }: NodeDetailPa
   }
 
   return (
-    <div className="flex flex-col h-full p-2 border-l bg-white">
+    <div className="flex flex-col h-full p-2 border-l bg-card">
       <Card className="mb-2">
         <CardHeader className="p-2 flex flex-row items-center justify-between">
           <CardTitle className="text-base">Node Details</CardTitle>
@@ -26,7 +26,7 @@ export const NodeDetailPanel = observer(({ selectedNode, onClose }: NodeDetailPa
           </Button>
         </CardHeader>
         <CardContent className="p-2 text-xs">
-          <pre className="bg-gray-100 p-2 rounded overflow-auto max-h-48">
+          <pre className="bg-muted p-2 rounded overflow-auto max-h-48">
             {JSON.stringify(selectedNode.data, null, 2)}
           </pre>
         </CardContent>

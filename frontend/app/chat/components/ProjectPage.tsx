@@ -148,7 +148,7 @@ export const ProjectPage = observer(function ProjectPage({
   if (loading && projects.length === 0) {
     return (
       <div className="flex flex-col h-screen">
-        <div className="flex-shrink-0 h-12 bg-white flex items-center justify-between px-3">
+        <div className="flex-shrink-0 h-12 bg-card border-b flex items-center justify-between px-3">
           <div className="flex items-center gap-2">
             <SidebarTrigger />
           </div>
@@ -164,13 +164,13 @@ export const ProjectPage = observer(function ProjectPage({
   if (!currentProject) {
     return (
       <div className="flex flex-col h-screen">
-        <div className="flex-shrink-0 h-12 bg-white flex items-center justify-between px-3">
+        <div className="flex-shrink-0 h-12 bg-card border-b flex items-center justify-between px-3">
           <div className="flex items-center gap-2">
             <SidebarTrigger />
           </div>
         </div>
         <div className="flex-1 flex items-center justify-center">
-          <div className="text-center text-gray-500">
+          <div className="text-center text-muted-foreground">
             <p>Project not found</p>
             <Button 
               variant="outline" 
@@ -187,13 +187,13 @@ export const ProjectPage = observer(function ProjectPage({
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex-shrink-0 h-12 bg-white flex items-center justify-between px-3">
+      <div className="flex-shrink-0 h-12 bg-card border-b flex items-center justify-between px-3">
         <div className="flex items-center gap-2">
           <SidebarTrigger />
         </div>
       </div>
       <div className="flex-3  flex flex-col items-center justify-center">
-        <div className="flex flex-col h-full p-6 md:p-8 lg:p-12 bg-white text-black">
+        <div className="flex flex-col h-full p-6 md:p-8 lg:p-12 bg-background">
           {/* Header */}
           <header className="flex justify-between items-start mb-6">
             <div className="flex items-center gap-2">
@@ -223,7 +223,7 @@ export const ProjectPage = observer(function ProjectPage({
                     <X className="h-4 w-4" />
                   </Button>
                   <Button 
-                    className="h-8 w-10 bg-black hover:bg-black/80" 
+                    className="h-8 w-10" 
                     size="icon" 
                     onClick={handleUpdateProjectName}
                     disabled={isUpdating || !editingProjectName.trim()}
@@ -291,12 +291,12 @@ export const ProjectPage = observer(function ProjectPage({
                   onChange={(e) => onInputChange(e.target.value)}
                   onKeyPress={onKeyPress}
                   placeholder="Enter message..."
-                  className="min-h-[120px] resize-none w-full rounded-lg border p-4 pr-24 focus-visible:ring-1 focus-visible:ring-black"
+                  className="min-h-[120px] resize-none w-full rounded-lg border p-4 pr-24 focus-visible:ring-1 focus-visible:ring-ring"
                 />
                 <Button
                   onClick={onSendMessage}
                   disabled={!currentInput.trim() || isLoading}
-                  className="absolute right-3 bottom-3 bg-black hover:bg-black/90"
+                  className="absolute right-3 bottom-3"
                 >
                   Send
                 </Button>
@@ -338,7 +338,7 @@ export const ProjectPage = observer(function ProjectPage({
                 </div>
               ) : (
                 <div
-                  className="text-gray-500 min-h-[40px] cursor-text"
+                  className="text-muted-foreground min-h-[40px] cursor-text"
                   onClick={() => {
                     setEditingInstructions(instructions);
                     setIsEditingInstructions(true);
@@ -351,16 +351,16 @@ export const ProjectPage = observer(function ProjectPage({
 
             {/* Project Files Section */}
             <div>
-              <div className="flex justify-between items-center mb-3">
-                <h2 className="text-lg font-semibold">Project Files(Coming soon)</h2>
-                <Button variant="outline">+ New Files</Button>
-              </div>
-              <div className="border rounded-lg p-4 text-center text-gray-400">
-                <p>No files have been added yet.</p>
-              </div>
+            <div className="flex justify-between items-center mb-3">
+              <h2 className="text-lg font-semibold">Project Files(Coming soon)</h2>
+              <Button variant="outline">+ New Files</Button>
             </div>
-          </main>
-        </div>
+            <div className="border rounded-lg p-4 text-center text-muted-foreground">
+              <p>No files have been added yet.</p>
+            </div>
+          </div>
+        </main>
+      </div>
       </div>
 
       {/* Delete Project Confirmation Dialog */}

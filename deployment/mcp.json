@@ -1,8 +1,8 @@
 {
   "mcpServers": {
-    "G": {
+    "obsidian": {
       "transport": "http",
-      "url": "http://bridge:8765/mcp",
+      "url": "http://mcp-gateway:8787/mcp",
       "enabled": true
     }
   }

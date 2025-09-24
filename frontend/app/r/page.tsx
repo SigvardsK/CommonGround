@@ -160,7 +160,7 @@ const RunPageLoader = observer(() => {
       <div className="h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <LoadingSpinner />
-          <p className="mt-4 text-gray-500">
+          <p className="mt-4 text-muted-foreground">
             {projectsLoading ? 'Loading projects...' : 'Initializing...'}
           </p>
         </div>
@@ -173,7 +173,7 @@ const RunPageLoader = observer(() => {
       <div className="h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <LoadingSpinner />
-          <p className="mt-4 text-gray-500">Connecting to server...</p>
+          <p className="mt-4 text-muted-foreground">Connecting to server...</p>
         </div>
       </div>
     );
@@ -184,7 +184,7 @@ const RunPageLoader = observer(() => {
       <div className="h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <LoadingSpinner />
-          <p className="mt-4 text-gray-500">Loading conversation...</p>
+          <p className="mt-4 text-muted-foreground">Loading conversation...</p>
         </div>
       </div>
     );

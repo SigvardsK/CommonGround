@@ -60,7 +60,7 @@ const formatTime = (timestamp?: string) => {
 const ParamsList = ({ data }: { data: Record<string, unknown> | null | undefined }) => {
   const renderValue = (value: unknown): React.ReactNode => {
     if (typeof value !== 'object' || value === null) {
-      return <span className="font-mono bg-white px-1 rounded">{String(value)}</span>;
+      return <span className="font-mono bg-card px-1 rounded">{String(value)}</span>;
     }
     return <ParamsList data={value as Record<string, unknown>} />;
   };
@@ -77,14 +77,14 @@ const ParamsList = ({ data }: { data: Record<string, unknown> | null | undefined
   const entries = data ? Object.entries(data) : [];
 
   if (entries.length === 0) {
-    return <div className="text-gray-400">No parameters</div>;
+    return <div className="text-muted-foreground">No parameters</div>;
   }
 
   return (
     <div className="space-y-1">
       {entries.map(([key, value]) => (
         <div key={key} className="flex items-start">
-          <span className="font-semibold text-gray-600 w-24 flex-shrink-0">{key}:</span>
+          <span className="font-semibold text-muted-foreground w-24 flex-shrink-0">{key}:</span>
           <div className="ml-2 flex-grow">{renderValue(value)}</div>
         </div>
       ))}
@@ -150,8 +150,8 @@ const TurnNodeContent = observer(({ data }: { data: FlowNodeData }) => {
     <div className="flex-1 flex flex-col text-left min-h-0">
       {/* Header */}
       <div className="p-2 flex-shrink-0">
-        <div className="inline-flex items-center gap-2 rounded-full p-1 pr-2 text-black">
-          <div className="w-5 h-5 bg-gray-300 rounded-full flex items-center justify-center text-xs font-bold">
+      <div className="inline-flex items-center gap-2 rounded-full p-1 pr-2 text-foreground">
+          <div className="w-5 h-5 bg-muted rounded-full flex items-center justify-center text-xs font-bold">
             {data.label.charAt(0).toUpperCase()}
           </div>
           <span className="font-medium text-sm">{data.label}</span>
@@ -159,22 +159,22 @@ const TurnNodeContent = observer(({ data }: { data: FlowNodeData }) => {
       </div>
 
       {/* Main content area - use unified height level for the layer */}
-      <div className={`mx-2 mb-2 text-sm text-gray-700 flex-shrink-0 bg-white rounded-lg p-4 overflow-y-auto relative ${unifiedContentHeight.class} ${hasContent ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`mx-2 mb-2 text-sm text-foreground flex-shrink-0 bg-card rounded-lg p-4 overflow-y-auto relative ${unifiedContentHeight.class} ${hasContent ? 'opacity-100' : 'opacity-0'}`}>
         {isRunningButEmpty ? (
           <div className="flex items-center">
-            <span className="text-gray-400 italic">Thinking...</span>
+            <span className="text-muted-foreground italic">Thinking...</span>
           </div>
         ) : displayContent ? (
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{displayContent}</ReactMarkdown>
         ) : (
           <div className="flex items-center">
-            <span className="text-gray-400 italic">No content</span>
+            <span className="text-muted-foreground italic">No content</span>
           </div>
         )}
       </div>
 
       {/* Tool Interactions Section - always visible, transparent when no tools */}
-      <div className={`flex-shrink-0 border-gray-200 mx-2 ${hasTools ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`flex-shrink-0 border mx-2 ${hasTools ? 'opacity-100' : 'opacity-0'}`}>
         <div className="max-h-[240px] overflow-y-auto p-1 space-y-1">
           {hasTools ? data.tool_interactions?.map(interaction => (
             <div key={interaction.tool_call_id} className="text-sm p-1">
@@ -198,7 +198,7 @@ const TurnNodeContent = observer(({ data }: { data: FlowNodeData }) => {
                 </Badge>
               </div>
               {!!interaction.input_params?.purpose && (
-                <p className="text-xs text-gray-600 bg-gray-100 p-1 rounded mt-1 whitespace-pre-wrap break-all">
+                <p className="text-xs text-muted-foreground bg-muted p-1 rounded mt-1 whitespace-pre-wrap break-all">
                   {String(interaction.input_params.purpose)}
                 </p>
               )}
@@ -218,7 +218,7 @@ const TurnNodeContent = observer(({ data }: { data: FlowNodeData }) => {
 
       {/* Timestamp footer */}
       {data.timestamp && (
-        <div className="text-xs text-gray-400 mt-auto px-3 pb-1 text-right flex-shrink-0">
+        <div className="text-xs text-muted-foreground mt-auto px-3 pb-1 text-right flex-shrink-0">
           {formatTime(data.timestamp)}
         </div>
       )}
@@ -259,15 +259,15 @@ const CustomNode = observer(({ id, data, onSizeChange }: CustomNodeProps) => {
   }, [id, onSizeChange]);
 
   const nodeStyles: Record<string, string> = {
-    turn: 'bg-gray-50',
-    default: 'bg-white',
+    turn: 'bg-muted',
+    default: 'bg-card',
   };
 
   const statusStyles: Record<string, string> = {
     running: 'border-dashed border-blue-400 animate-pulse',
     completed_error: 'border-solid border-red-400',
-    interrupted: 'border-dashed border-gray-400',
-    default: 'border-solid border-gray-200',
+    interrupted: 'border-dashed border-muted-foreground',
+    default: 'border-solid border',
   };
 
   if (nodeType === 'gather') {
@@ -277,7 +277,7 @@ const CustomNode = observer(({ id, data, onSizeChange }: CustomNodeProps) => {
         
         {/* Gather node - borderless "Synthesis" text, aligned with other cards' width */}
         <div className="w-full h-full flex items-center justify-center">
-          <span className="text-sm font-medium text-gray-700 select-none">
+          <span className="text-sm font-medium text-foreground select-none">
             Synthesis
           </span>
         </div>
@@ -380,7 +380,7 @@ export const FlowView = observer(({ onNodeClick }: FlowViewProps) => {
       defaultViewport={{ x: 0, y: 0, zoom: 0.8 }} // Set default zoom to 80%
       minZoom={0.1}
       maxZoom={2.0}
-      className="bg-white rounded-lg border border-[#E4E4E4]"
+      className="bg-card rounded-lg border"
       nodesDraggable={false}
       nodesConnectable={false}
       elementsSelectable={true}

@@ -31,7 +31,7 @@ interface ParamsListProps {
 }
 
 const JsonViewer = ({ data }: { data: unknown }) => (
-  <pre className="bg-gray-900 text-white p-2 rounded-md text-xs whitespace-pre-wrap break-words">
+  <pre className="bg-muted text-foreground p-2 rounded-md text-xs whitespace-pre-wrap break-words">
     {JSON.stringify(data, null, 2)}
   </pre>
 );
@@ -39,7 +39,7 @@ const JsonViewer = ({ data }: { data: unknown }) => (
 const ParamsList = ({ data }: ParamsListProps) => {
   const renderValue = (value: ParamsValue) => {
     if (typeof value !== 'object' || value === null) {
-      return <span className="font-mono bg-gray-200 px-1 rounded">{String(value)}</span>;
+      return <span className="font-mono bg-muted px-1 rounded">{String(value)}</span>;
     }
     return <ParamsList data={value} />;
   };
@@ -88,7 +88,7 @@ const ToolInteraction = ({ interaction }: { interaction: ToolInteractionData }) 
 
       {/* Added: Display input parameters */}
       {hasInputParams && interaction.input_params && (
-        <div className="text-xs text-gray-700 bg-gray-50 p-2 rounded-md">
+        <div className="text-xs text-foreground bg-muted p-2 rounded-md">
           <ParamsList data={interaction.input_params as Record<string, ParamsValue>} />
         </div>
       )}
@@ -96,7 +96,7 @@ const ToolInteraction = ({ interaction }: { interaction: ToolInteractionData }) 
       {/* Added: Display collapsible results */}
       {hasResultPayload && (
         <Collapsible>
-          <CollapsibleTrigger className="text-xs text-blue-600 hover:underline">
+          <CollapsibleTrigger className="text-xs text-primary hover:underline">
             View Tool Result
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-2">
@@ -147,9 +147,9 @@ export const TurnBubble = observer(({ turn, isHighlighted = false, onNodeIdClick
             <AvatarFallback>{agentDisplayName.charAt(0)}</AvatarFallback>
           </Avatar>
           <span className="font-bold text-sm">{agentDisplayName}</span>
-          {turn.status === 'running' && <ThinkingDots className="text-gray-500" />}
+          {turn.status === 'running' && <ThinkingDots className="text-muted-foreground" />}
           <span 
-            className={`text-xs text-gray-400 ${handleNodeClick ? 'hover:underline cursor-pointer' : ''}`}
+            className={`text-xs text-muted-foreground ${handleNodeClick ? 'hover:underline cursor-pointer' : ''}`}
             onClick={handleNodeClick}
             title={handleNodeClick ? `Click to highlight turn ${turn.turn_id} in FlowView` : `Turn started at ${new Date(turn.start_time).toLocaleTimeString()}`}
           >
@@ -159,7 +159,7 @@ export const TurnBubble = observer(({ turn, isHighlighted = false, onNodeIdClick
               <TooltipProvider delayDuration={100}>
                   <Tooltip>
                       <TooltipTrigger>
-                          <Info size={12} className="text-gray-400 hover:text-gray-600" />
+                          <Info size={12} className="text-muted-foreground hover:text-foreground" />
                       </TooltipTrigger>
                       <TooltipContent side="top" align="center">
                           <p className="text-xs">
@@ -171,9 +171,9 @@ export const TurnBubble = observer(({ turn, isHighlighted = false, onNodeIdClick
               </TooltipProvider>
           )}
         </div>
-        <Card className={`mt-1 ${isUserTurn ? 'bg-gray-50' : 'bg-white border-0 shadow-none'}`}>
+        <Card className={`mt-1 ${isUserTurn ? 'bg-muted' : 'bg-card border-0 shadow-none'}`}>
           <CardContent className="p-3">
-            <div className="prose prose-sm max-w-none break-words space-y-2">
+            <div className="prose prose-sm dark:prose-invert max-w-none break-words space-y-2">
               {displayContent && (
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{displayContent}</ReactMarkdown>
               )}
@@ -183,7 +183,7 @@ export const TurnBubble = observer(({ turn, isHighlighted = false, onNodeIdClick
             </div>
             {!isUserTurn && (
               <Collapsible className="mt-2">
-                <CollapsibleTrigger className="flex items-center gap-1 text-xs text-gray-500 hover:text-black">
+                <CollapsibleTrigger className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
                   <Code size={14} />
                   <span>View Raw Turn Data</span>
                 </CollapsibleTrigger>

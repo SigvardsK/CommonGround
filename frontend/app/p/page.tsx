@@ -101,7 +101,7 @@ const ProjectPageLoader = observer(() => {
   if (!project) {
     return (
       <div className="h-screen flex items-center justify-center bg-background">
-        <div className="text-center text-gray-500">
+        <div className="text-center text-muted-foreground">
           <h2 className="text-xl font-semibold mb-2">Project not found</h2>
           <p>The project you&apos;re looking for doesn&apos;t exist or has been deleted.</p>
         </div>

@@ -8,6 +8,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import { AppProvider } from "@/components/providers/AppProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 
 const montserrat = localFont({
   src: [
@@ -100,8 +101,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${montserrat.variable}`}>
+        <ThemeProvider>
         <Suspense
           fallback={
             <div className="min-h-screen flex items-center justify-center bg-background">
@@ -120,6 +122,7 @@ export default function RootLayout({
             </AppProvider>
           </SessionProvider>
         </Suspense>
+        </ThemeProvider>
         <Toaster position="bottom-center" />
       </body>
     </html>

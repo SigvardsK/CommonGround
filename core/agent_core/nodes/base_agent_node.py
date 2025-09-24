@@ -776,6 +776,23 @@ class AgentNode(AsyncNode):
                 error_message = llm_response["error"]
                 logger.error("post_processing_llm_error", extra={"agent_id": self.agent_id, "error_message": error_message}, exc_info=True)
 
+                # Special handling: if the LLM returned an empty response (common when large tool payloads timeout),
+                # queue a reminder so the agent immediately retries the intended tool call on the next turn.
+                if llm_response.get("error_type") == "FunctionCallErrorException" and "empty response" in error_message.lower():
+                    inbox = state.setdefault("inbox", [])
+                    already_queued = any(item.get("metadata", {}).get("reminder_id") == "retry_manage_work_modules" for item in inbox)
+                    if not already_queued:
+                        inbox.append({
+                            "item_id": f"inbox_retry_{uuid.uuid4().hex[:8]}",
+                            "source": "INTERNAL_DIRECTIVE",
+                            "payload": "<internal>Previous attempt returned no content. Re-issue the required tool call immediately, keeping arguments concise and splitting large batches if needed.</internal>",
+                            "consumption_policy": "consume_on_read",
+                            "metadata": {
+                                "created_at": datetime.now(timezone.utc).isoformat(),
+                                "reminder_id": "retry_manage_work_modules"
+                            }
+                        })
+
                 if turn_manager:
                     turn_manager.fail_current_turn(context, error_message)
                 

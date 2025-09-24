@@ -85,8 +85,8 @@ export const ConversationDetailView = observer(({ turns, highlightedNodeId, onCl
   };
 
   return (
-    <div className="flex flex-col h-full bg-gray-50">
-      <div className="flex p-2 border-y bg-white items-center gap-2">
+    <div className="flex flex-col h-full bg-background">
+      <div className="flex p-2 border-y bg-card items-center gap-2">
         <p className="text-sm font-medium">Filter by agent:</p>
         <FilterCombobox
           options={agentOptions}

@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import {
@@ -12,6 +14,7 @@ import { Workspace } from './Workspace';
 import { Turn } from '@/app/stores/sessionStore';
 import { Node, NodeMouseHandler } from 'reactflow';
 import { selectionStore } from '@/app/stores/selectionStore';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 interface ChatLayoutProps {
   messages: Turn[];
@@ -32,16 +35,20 @@ interface ChatLayoutProps {
 
 export const ChatLayout = observer(function ChatLayout(props: ChatLayoutProps) {
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex-shrink-0 h-12 border-b bg-white flex items-center justify-between px-3">
+    <div className="flex flex-col h-screen bg-background">
+      <div className="flex-shrink-0 h-12 border-b bg-card flex items-center justify-between px-3">
         <div className="flex items-center gap-3">
           <SidebarTrigger />
-          <div className="h-6 w-[1px] bg-gray-200" />
+          <div className="h-6 w-[1px] bg-border" />
           <div className="flex items-center gap-2 text-sm">
             <span className="font-medium">{selectionStore.displayProjectName}</span>
-            <span className="text-gray-400">&gt;</span>
+            <span className="text-muted-foreground">&gt;</span>
             <span>{selectionStore.displayFileName}</span>
           </div>
+        </div>
+        {/* Theme toggle */}
+        <div className="flex items-center">
+          <ThemeToggle />
         </div>
       </div>
 

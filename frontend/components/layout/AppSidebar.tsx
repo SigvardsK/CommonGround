@@ -515,7 +515,7 @@ export const AppSidebar = observer(function AppSidebar() {
                     />
                   </div>
                 </div>
-                <div className="flex gap-3 items-start rounded-lg bg-[#F9F9F9] p-3">
+                <div className="flex gap-3 items-start rounded-lg bg-muted p-3">
                   <div className="mt-1">
                     <Siren size={22} strokeWidth={1.2} />
                   </div>
@@ -702,7 +702,7 @@ export const AppSidebar = observer(function AppSidebar() {
                           <SidebarMenuButton 
                             onClick={() => handleProjectSelect(projectData.project)}
                             className={`w-full relative hover:bg-accent transition-all duration-200 ${
-                              dragOverProject === projectData.project.project_id ? 'bg-blue-100 border-2 border-blue-300 border-dashed scale-[1.02]' : ''
+                              dragOverProject === projectData.project.project_id ? 'bg-accent border-2 border-accent border-dashed scale-[1.02]' : ''
                             }`}
                             onDragOver={(e) => handleDragOver(e, projectData.project.project_id)}
                             onDragLeave={handleDragLeave}
@@ -714,7 +714,7 @@ export const AppSidebar = observer(function AppSidebar() {
                                   e.stopPropagation()
                                   toggleProject(projectData.project.project_id)
                                 }}
-                                className="p-1 cursor-pointer hover:bg-neutral-200 hover:rounded"
+                                className="p-1 cursor-pointer hover:bg-accent hover:rounded"
                               >
                                 <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${selectionStore.isProjectOpen(projectData.project.project_id) ? "" : "-rotate-90"}`} />
                               </div>
@@ -725,7 +725,7 @@ export const AppSidebar = observer(function AppSidebar() {
                           {projectData.project.project_id !== 'default' && (
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
-                                <SidebarMenuAction className="right-8">
+                            <SidebarMenuAction className="right-8">
                                   <MoreHorizontal className="h-4 w-4 opacity-0 group-hover/collapsible:opacity-100" />
                                 </SidebarMenuAction>
                               </DropdownMenuTrigger>
@@ -807,7 +807,7 @@ export const AppSidebar = observer(function AppSidebar() {
                                           <Button
                                             variant="ghost"
                                             size="icon"
-                                            className="h-6 w-6 rounded-sm hover:bg-neutral-200"
+                                            className="h-6 w-6 rounded-sm hover:bg-accent"
                                             onClick={(e) => {
                                               e.stopPropagation()
                                               handleEditFile(run)
@@ -819,7 +819,7 @@ export const AppSidebar = observer(function AppSidebar() {
                                           <Button
                                             variant="ghost"
                                             size="icon"
-                                            className="h-6 w-6 rounded-sm hover:text-red-500 hover:bg-neutral-200"
+                                            className="h-6 w-6 rounded-sm hover:text-red-500 hover:bg-accent"
                                             onClick={(e) => {
                                               e.stopPropagation()
                                               triggerDeleteFile(run.meta.run_id)
@@ -917,7 +917,7 @@ export const AppSidebar = observer(function AppSidebar() {
           <DialogTitle className="sr-only">Settings</DialogTitle>
           <div className="flex h-full">
             {/* Left Sidebar */}
-            <div className="w-[255px] bg-gray-50 border-r rounded-l-lg">
+            <div className="w-[255px] bg-card border-r rounded-l-lg">
               <div className="p-2">
                 {settingsTabs.map((tab) => {
                   const Icon = tab.icon
@@ -927,8 +927,8 @@ export const AppSidebar = observer(function AppSidebar() {
                       onClick={() => setActiveSettingTab(tab.id)}
                       className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                         activeSettingTab === tab.id
-                          ? 'bg-gray-100 text-gray-900'
-                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                          ? 'bg-accent text-foreground'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                       }`}
                     >
                       <Icon className="h-4 w-4" />
@@ -944,27 +944,27 @@ export const AppSidebar = observer(function AppSidebar() {
               {activeSettingTab === 'model-provider' && (
                 <div>
                   <h3 className="text-2xl font-semibold mb-2">Model Provider</h3>
-                  <p className="text-gray-500 text-sm mb-8">
+                  <p className="text-muted-foreground text-sm mb-8">
                     Receive emails about new products, features, and more.
                   </p>
                   
                   {settingsLoading ? (
                     <div className="text-center py-8">
-                      <div className="text-gray-500">Loading...</div>
+                      <div className="text-muted-foreground">Loading...</div>
                     </div>
                   ) : (
                     <div className="space-y-6">
                       {Object.values(modelProviders).map((provider: ModelProvider) => (
                         <div key={provider.id}>
                           {/* Provider Item */}
-                          <div className="py-4 border-b border-gray-200">
+                          <div className="py-4 border-b">
                             <div className="flex items-center justify-between">
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-1">
                                   <h4 className="text-base font-medium">{provider.name}</h4>
-                                  <ExternalLink className="h-4 w-4 text-gray-400" />
+                                  <ExternalLink className="h-4 w-4 text-muted-foreground" />
                                 </div>
-                                <p className="text-sm text-gray-500">{provider.description}</p>
+                                <p className="text-sm text-muted-foreground">{provider.description}</p>
                               </div>
                               <div className="flex items-center gap-3">
                                 <Button
@@ -973,7 +973,7 @@ export const AppSidebar = observer(function AppSidebar() {
                                   className="h-8 w-8 p-0"
                                   onClick={() => toggleProviderSettings(provider.id)}
                                 >
-                                  <Cog className="h-4 w-4 text-gray-500" />
+                                  <Cog className="h-4 w-4 text-muted-foreground" />
                                 </Button>
                                 <Switch
                                   checked={provider.enabled}
@@ -983,9 +983,9 @@ export const AppSidebar = observer(function AppSidebar() {
                             </div>
                             {/* API Key Configuration */}
                             {expandedProvider === provider.id && (
-                              <div className="p-4 bg-gray-50 border border-gray-200 rounded-md mt-2">
+                              <div className="p-4 bg-muted border rounded-md mt-2">
                                 <div className="mb-3">
-                                  <label className="text-sm font-medium text-gray-700">API Key</label>
+                                  <label className="text-sm font-medium text-foreground">API Key</label>
                                 </div>
                                 <div className="flex gap-2">
                                   <Input
@@ -1016,21 +1016,21 @@ export const AppSidebar = observer(function AppSidebar() {
               {activeSettingTab === 'general-settings' && (
                 <div>
                   <h3 className="text-2xl font-semibold mb-2">General Settings</h3>
-                  <p className="text-gray-500 text-sm mb-8">
+                  <p className="text-muted-foreground text-sm mb-8">
                     Receive emails about new products, features, and more.
                   </p>
                   
                   {settingsLoading ? (
                     <div className="text-center py-8">
-                      <div className="text-gray-500">Loading...</div>
+                      <div className="text-muted-foreground">Loading...</div>
                     </div>
                   ) : (
                     <div className="space-y-6">
                       {Object.values(generalSettings).map((setting: GeneralSetting) => (
-                        <div key={setting.id} className="flex items-center justify-between py-4 border-b border-gray-200">
+                        <div key={setting.id} className="flex items-center justify-between py-4 border-b">
                           <div className="flex-1">
                             <h4 className="text-base font-medium mb-1">{setting.label}</h4>
-                            <p className="text-sm text-gray-500">{setting.description}</p>
+                            <p className="text-sm text-muted-foreground">{setting.description}</p>
                           </div>
                           
                           <div className="flex items-center">
@@ -1067,20 +1067,20 @@ export const AppSidebar = observer(function AppSidebar() {
               {activeSettingTab === 'about' && (
                 <div>
                   <h3 className="text-2xl font-semibold mb-2">About</h3>
-                  <p className="text-gray-500 text-sm mb-8">
+                  <p className="text-muted-foreground text-sm mb-8">
                     Receive emails about new products, features, and more.
                   </p>
                   
                   {settingsLoading ? (
                     <div className="text-center py-8">
-                      <div className="text-gray-500">Loading...</div>
+                      <div className="text-muted-foreground">Loading...</div>
                     </div>
                   ) : aboutInfo ? (
                     <div className="space-y-8">
                       {/* App Info Section */}
                       <div className="flex items-center justify-between py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 rounded-lg bg-black flex items-center justify-center">
+                          <div className="w-12 h-12 rounded-lg bg-card border flex items-center justify-center">
                             <Image 
                               src={aboutInfo.appInfo.icon} 
                               alt={aboutInfo.appInfo.name}
@@ -1091,7 +1091,7 @@ export const AppSidebar = observer(function AppSidebar() {
                           </div>
                           <div>
                             <h4 className="text-base font-medium">{aboutInfo.appInfo.name}</h4>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-muted-foreground">
                               {aboutInfo.appInfo.version} ({aboutInfo.appInfo.buildDate})
                             </p>
                           </div>
@@ -1113,7 +1113,7 @@ export const AppSidebar = observer(function AppSidebar() {
                             <button
                               key={link.id}
                               onClick={() => handleLinkClick(link.url)}
-                              className="flex items-center gap-3 text-sm text-blue-600 hover:text-blue-800 transition-colors"
+                              className="flex items-center gap-3 text-sm text-primary hover:text-primary/80 transition-colors"
                             >
                               {getIconComponent(link.icon)}
                               <span>{link.label}</span>
@@ -1126,7 +1126,7 @@ export const AppSidebar = observer(function AppSidebar() {
                       <div>
                         <h4 className="text-lg font-semibold mb-3">Community</h4>
                         <div className="flex items-center justify-between">
-                          <p className="text-sm text-gray-600 flex-1 mr-4">
+                          <p className="text-sm text-muted-foreground flex-1 mr-4">
                             {aboutInfo.community.description}
                           </p>
                           <Button
@@ -1141,7 +1141,7 @@ export const AppSidebar = observer(function AppSidebar() {
                     </div>
                   ) : (
                     <div className="text-center py-8">
-                      <div className="text-gray-500">No about information available</div>
+                      <div className="text-muted-foreground">No about information available</div>
                     </div>
                   )}
                 </div>

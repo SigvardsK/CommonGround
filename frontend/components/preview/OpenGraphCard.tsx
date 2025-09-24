@@ -38,9 +38,9 @@ export function OpenGraphCard({ url }: OpenGraphCardProps) {
 
   if (isLoading) {
     return (
-      <Card className="w-full h-full animate-pulse bg-gray-100">
+      <Card className="w-full h-full animate-pulse bg-muted">
         <div className="flex items-center justify-center h-full">
-          <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-muted-foreground/30 border-t-foreground rounded-full animate-spin" />
         </div>
       </Card>
     );
@@ -48,8 +48,8 @@ export function OpenGraphCard({ url }: OpenGraphCardProps) {
 
   if (error || !metadata) {
     return (
-      <Card className="w-full h-full p-4 hover:bg-gray-50 transition-colors">
-        <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+      <Card className="w-full h-full p-4 hover:bg-accent transition-colors">
+        <a href={url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
           {url}
         </a>
       </Card>
@@ -57,17 +57,17 @@ export function OpenGraphCard({ url }: OpenGraphCardProps) {
   }
 
   return (
-    <Card className="w-full h-full overflow-hidden hover:bg-gray-50 transition-colors">
+    <Card className="w-full h-full overflow-hidden hover:bg-accent transition-colors">
       <a href={url} target="_blank" rel="noopener noreferrer" className="block p-4 h-full flex flex-col justify-between">
           <h3 className="font-bold text-[13px] line-clamp-2">{metadata.title}</h3>
           {metadata.description && (
-            <p className="text-[12px] text-[#555555] line-clamp-2">{metadata.description}</p>
+            <p className="text-[12px] text-muted-foreground line-clamp-2">{metadata.description}</p>
           )}
           <div className="flex items-center gap-2">
             <Image src={metadata.favicon} alt="" width={20} height={20} />
-            <span className="text-[13px] text-[#676767]">{metadata.domain}</span>
+            <span className="text-[13px] text-muted-foreground">{metadata.domain}</span>
           </div>
       </a>
     </Card>
   );
-} 
+}
