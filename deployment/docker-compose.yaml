@@ -42,7 +42,7 @@ services:
       - ~/.gemini:/root/.gemini
     environment:
       # API key authentication enabled
-      - GEMINI_API_KEY=AIzaSyAYEqVqMWqf9aAfEXoji7wh1olbavylFGY
+      - GEMINI_API_KEY=API_KEY_HERE
       
       # IMPORTANT: If you encounter "GOOGLE_CLOUD_PROJECT env var" error during login,
       # you MUST uncomment and set this variable with your Google Cloud Project ID
